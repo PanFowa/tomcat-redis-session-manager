@@ -6,7 +6,7 @@ group = 'com.orangefunction'
 version = '2.0.0'
 
 repositories {
-  mavenCentral()
+  mavenLocal()
 }
 
 compileJava {
@@ -48,52 +48,72 @@ signing {
   sign configurations.archives
 }
 
+//uploadArchives {
+//  repositories {
+//    mavenDeployer {
+//      //beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+//
+////      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+////        authentication(userName: sonatypeUsername, password: sonatypePassword)
+////      }
+//      //repository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+//      //  authentication(userName: sonatypeUsername, password: sonatypePassword)
+//      //}
+//
+//      pom.project {
+//        name 'tomcat-redis-session-manager'
+//        packaging 'jar'
+//        description 'Tomcat Redis Session Manager is a Tomcat extension to store sessions in Redis'
+//        url 'https://github.com/jcoleman/tomcat-redis-session-manager'
+//
+//        issueManagement {
+//          url 'https://github.com:jcoleman/tomcat-redis-session-manager/issues'
+//          system 'GitHub Issues'
+//        }
+//
+//        scm {
+//          url 'https://github.com:jcoleman/tomcat-redis-session-manager'
+//          connection 'scm:git:git://github.com/jcoleman/tomcat-redis-session-manager.git'
+//          developerConnection 'scm:git:git@github.com:jcoleman/tomcat-redis-session-manager.git'
+//        }
+//
+//        licenses {
+//          license {
+//            name 'MIT'
+//            url 'http://opensource.org/licenses/MIT'
+//            distribution 'repo'
+//          }
+//        }
+//
+//        developers {
+//          developer {
+//            id 'jcoleman'
+//            name 'James Coleman'
+//            email 'jtc331@gmail.com'
+//            url 'https://github.com/jcoleman'
+//          }
+//        }
+//      }
+//    }
+//  }
+//}
+
+// 指定上传的路径
+def localMavenRepo = 'file://D:/maven-rep/repository'.absolutePath
+
+// 上传Task，Gradle会生成并上传pom.xml文件。
 uploadArchives {
   repositories {
     mavenDeployer {
-      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+      repository(url: localMavenRepo)
 
-      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        authentication(userName: sonatypeUsername, password: sonatypePassword)
-      }
-      //repository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
-      //  authentication(userName: sonatypeUsername, password: sonatypePassword)
-      //}
-
+      //构造项目的Pom文件
       pom.project {
-        name 'tomcat-redis-session-manager'
-        packaging 'jar'
-        description 'Tomcat Redis Session Manager is a Tomcat extension to store sessions in Redis'
-        url 'https://github.com/jcoleman/tomcat-redis-session-manager'
-
-        issueManagement {
-          url 'https://github.com:jcoleman/tomcat-redis-session-manager/issues'
-          system 'GitHub Issues'
-        }
-
-        scm {
-          url 'https://github.com:jcoleman/tomcat-redis-session-manager'
-          connection 'scm:git:git://github.com/jcoleman/tomcat-redis-session-manager.git'
-          developerConnection 'scm:git:git@github.com:jcoleman/tomcat-redis-session-manager.git'
-        }
-
-        licenses {
-          license {
-            name 'MIT'
-            url 'http://opensource.org/licenses/MIT'
-            distribution 'repo'
-          }
-        }
-
-        developers {
-          developer {
-            id 'jcoleman'
-            name 'James Coleman'
-            email 'jtc331@gmail.com'
-            url 'https://github.com/jcoleman'
-          }
-        }
+        name = project.name
+        packaging = 'jar'
+        description = 'description'
       }
     }
+
   }
 }
